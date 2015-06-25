@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en"> 
+<head>
+    <meta charset="utf-8">
+    <title>The Cow - Cow Chat Simulator</title> 
+    <link href="css/main.css" media="screen, projection" rel="stylesheet" type="text/css" />
+    <meta name="description" content="If you've always wanted to chat with a cow - now's your chance!">
+    <meta name="viewport" content="width=100%, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=0" />
+</head>
+<body>
+    <header>The Cow</header>
+
+    <div class="chat">
+        <div id="cowBubble" class="bubble"></div>
+        <img src="img/cow.svg" alt="The Cow character illustration" class="cow_img">
+        <div id="userBubble" class="bubble"></div>
+        <form id="userForm" onsubmit="return chat.postUserStmt()" action="" method="">
+            <input type="text" autocomplete="off" name="userInput" id="userInput"><!-- 
+             --><input type="submit" value="Send">
+        </form>
+    </div>
+
+    <footer>
+        <a href="mailto:contact@ivanaweb.com" class="mail">contact@ivanaweb.com</a>
+    </footer>
+
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,700' rel='stylesheet' type='text/css'>
+    <script src="js/main.js"></script>
+</body>

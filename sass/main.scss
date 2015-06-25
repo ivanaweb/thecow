@@ -1,0 +1,158 @@
+/*
+The Cow
+
+by Ivana Stojadinovic contact[at]ivanaweb[dot]com
+
+Cow chat simulator in which the cow randomly alternates 
+between mooing and 'thinking' images related to the user's latest 'IM'.
+*/
+
+@import "compass/css3";
+
+/*------- reset -------*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0; padding: 0; border: 0; outline: 0; font: inherit;
+    vertical-align: baseline; text-decoration: none; list-style-type: none;
+}
+
+*, *:before, *:after {
+  -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
+}
+
+html, body { 
+    width: 100%; height: 100%; 
+}
+
+body { 
+    position: fixed;
+    font-family: Roboto, sans-serif; text-align: right;
+    color: #000; 
+    background: #3399cc;
+    background: -moz-linear-gradient(top,  #3399cc 0%, #c2e8f5 32%, #c7978b 37%, #a38e7e 42%, #665b55 44%, #b5aea2 49%, #fff);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#3399cc), color-stop(32%,#c2e8f5), color-stop(37%,#c7978b), color-stop(42%,#a38e7e), color-stop(44%,#665b55), color-stop(49%,#b5aea2), color-stop(100%,#fff));
+    background: -webkit-linear-gradient(top,  #3399cc 0%,#c2e8f5 32%,#c7978b 37%,#a38e7e 42%,#665b55 44%,#b5aea2 49%, #fff);
+    background: -o-linear-gradient(top,  #3399cc 0%,#c2e8f5 32%,#c7978b 37%,#a38e7e 42%,#665b55 44%,#b5aea2 49%, #fff);
+    background: -ms-linear-gradient(top,  #3399cc 0%,#c2e8f5 32%,#c7978b 37%,#a38e7e 42%,#665b55 44%,#b5aea2 49%, #fff);
+    background: linear-gradient(to bottom,  #3399cc 0%,#c2e8f5 30%,#6eab3f 38%,#6eab3f 42%,#998e70 44%,#b5aea2 47%, #fff 90%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3399cc', endColorstr='#b5aea2',GradientType=0 );
+    padding: 1.25em 1em;
+}
+
+header {
+    height: 13%; max-height: 5em;
+    text-align:left; text-indent: -100%; overflow: hidden;
+    background: image-url("cow_talk_logo.svg", false, false) no-repeat top center; 
+    background-size: auto 100%;
+    margin-bottom: 1em;
+}
+
+.chat {
+    width: 100%; max-width: 33em; height: 75%; position: relative;
+    margin: auto;
+}
+
+.bubble {
+    width: 100%; min-height: 3.25em;
+    position: absolute; left: 0;
+    color: #555; font-weight: bold; text-align: left;
+    padding: 1.0625em 1.125em; margin: 0 1em 1.5em 0; 
+    border-radius: .375em;
+}
+#cowBubble { 
+    bottom: 35%; left: 0; top: 1%; right: 0;
+    text-align: left; color: #777;
+    background: image-url("252.gif", false, false) no-repeat 1.1875em 1.1875em #f8f8f8; 
+    img {
+        max-width: 100%;
+        max-height: 99%;
+        border-radius: .25em;
+        -webkit-transition: all .15s ease; transition: all .15s ease;
+    }
+    span {
+        display: inline-block;
+        min-width: 5em;
+        background: #f8f8f8;
+        -webkit-transition: all .15s ease; transition: all .15s ease;
+    }
+}
+#userBubble { 
+    display: none;
+    bottom: 11%;
+    color: #fff; background: lighten(#3399cc, 15%); 
+    z-index: 3; 
+}
+#cowBubble:after, #userBubble:after { 
+    content: ""; display: block;
+    background: none;
+    position: absolute; left: 72%; bottom: -.75em; 
+    width: 0; height: 0;
+    border-style: dotted solid solid dotted;
+    border-width: 0 .75em .75em 0;
+    border-color: rgba(255, 255, 255, 0) #f8f8f8 rgba(255, 255, 255, 0) rgba(255, 255, 255, 0);
+    -webkit-transform:rotate(360deg);
+}
+#userBubble:after { 
+    content: ""; left: auto; right: 1em;
+    border-style: solid solid dotted dotted;
+    border-width: .75em .75em 0 0;
+    border-color: lighten(#3399cc, 15%) rgba(255, 255, 255, 0) rgba(255, 255, 255, 0) rgba(255, 255, 255, 0);
+}
+
+.cow_img {
+    height: 58%; position: absolute;
+    bottom: 14%; left: 71%;
+    z-index: 2;
+}
+
+form {
+    position: absolute; width: 100%; left: 0; bottom: 0;
+}
+
+input { 
+    display: inline-block; width: 79%;
+    padding: 1em; margin: 0;
+    border: 2px solid lighten(#1c82b5, 15%); outline: 0;
+    border-radius: .375em;
+    &:focus {
+        border: 2px solid #1c82b5;
+    }
+}
+
+input[type="submit"] {
+    width: 19%;
+    text-indent: -10em; overflow: hidden;
+    background: image-url("arrow.svg", false, false) no-repeat center center #1c82b5;
+    margin-left: 2%; border: 1px solid #1c82b5; outline: 0; cursor: pointer;
+    -webkit-transition: all .15s ease; transition: all .15s ease;
+    &:hover {
+        background-color: saturate(darken(#1c82b5, 10%), 10%);
+    }
+}
+
+
+footer {
+    height: 10%;
+    position: absolute; right: 0; bottom: 0; left: 0;
+    text-align: center;
+    padding-top: .5em;
+}
+
+.mail {
+    display: inline-block; width: 13em;
+    font-size: .875em; text-align: center;
+    color: #3399cc;
+    padding: .5em 1em 2em 1em;
+    &:hover { color: #111; }
+}
